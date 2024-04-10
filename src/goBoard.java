@@ -61,6 +61,7 @@ public class goBoard {
         if(y > 0 && goBoard[y-1][x] == null){
             return true;
         }
+        setDead(y, x);
         return false;
     }
 
@@ -72,6 +73,7 @@ public class goBoard {
         visited[y][x] = true;
         // If canBreathe == true, the loop ends.
         if(canBreathe(y, x)) {
+            statusArray[y][x] = "[Alive]";
             return true;
         }
 
@@ -87,7 +89,9 @@ public class goBoard {
         if (x > 0 && goBoard[y][x-1] == pieceColor) {
             return isAliveRecursive(y, x-1, goBoard[y][x-1]);
         }
+        setDead(y, x);
         return false;
+        
     }
 
     // Prints an array showing the status of all game positions.
@@ -107,6 +111,10 @@ public class goBoard {
                 }
             }
         }
+    }
+    
+    public static void setDead(int y, int x) {
+        statusArray[y][x] = "Dead ";
     }
 
     public static void printDeadAlive() {
@@ -186,7 +194,7 @@ public class goBoard {
             if ("p".equalsIgnoreCase(input)) {
                 if (lastMoveWasPass) {
                     System.out.println("Both players passed. Ending game.");
-                    findDeadAlive();
+                    //findDeadAlive();
                     //printDeadAlive();
                     calcDeadScore();
 
@@ -246,8 +254,8 @@ public class goBoard {
                 continue;
             }
 
-            findDeadAlive();
-            //printDeadAlive();
+            //findDeadAlive();
+            printDeadAlive();
             calcDeadScore();
             // Prints board after each turn.
             printBoard();
